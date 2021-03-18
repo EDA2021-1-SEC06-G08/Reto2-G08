@@ -60,12 +60,12 @@ def nOrganizador(videos, n):
     """
     Retorna los n primeros videos
     """
-    size = map.size(videos)
+    size = lt.size(videos)
     print('Los videos son: ')
     if size > n:
         i=1
         while i <= n:
-            video = map.keySet(videos)
+            video = lt.getElement(videos)
             print('El titulo es: ' + video['title'])
             print('El canal es: ' + video['channel_title'])
             print('La fecha de trending es: ' + video['trending_date'])

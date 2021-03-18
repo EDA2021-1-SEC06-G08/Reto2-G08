@@ -29,7 +29,7 @@ import config as cf
 from DISClib.ADT import list as lt
 from DISClib.ADT import map as mp
 from DISClib.DataStructures import mapentry as me
-from DISClib.Algorithms.Sorting import shellsort as sa
+from DISClib.Algorithms.Sorting import quicksort as sa
 assert cf
 
 """
@@ -72,16 +72,17 @@ def addCategory(catalog, category):
     if lt.isPresent(catalog['categories'],t) == 0:
         lt.addLast(catalog['categories'], t)
 
-def addMapVideoCategory(catalog, category):
-    idEsta = mp.contains(catalog['videosCategory'], category['id'])
-    if not idEsta:
-        mp.put(catalog['videosCategory'], category['id'], lt.newList())
-
-def addVideoCategory(catalog, video):
-    idCat = video['category_id']
-    lista = mp.get(catalog['videosCategory'], idCat)
-    lt.addLast(lista, video)
-    mp.put(catalog['videosCategory'], idCat, lista)
+def addMapVideoCategory(catalog, video):
+    idEsta = mp.contains(catalog['videosCategory'], video['category_id'])
+    if not(idEsta):
+        mp.put(catalog['videosCategory'], video['category_id'], lt.newList('ARRAY_LIST')
+        lista = mp.getValue(catalog['videosCategory'], video['category_id'])
+        lt.addLast(lista, video)
+        mp.put(catalog['videosCategory'], video['category_id'], lista)
+    else:
+        lista = mp.getValue(catalog['videosCategory', video['category_id'])
+        lt.addLast(lista, video)
+        mp.put(catalog['videosCategory'], video['category_id'], lista)
 
 # Funciones para creacion de datos
 
@@ -100,8 +101,8 @@ def nCategoryVideos(catalog, category):
     video = mp.contains(catalog['videosCategory'], category)
     if video:
         videos = mp.get(catalog['videosCategory'], category)
-        return me.getValue(videos)
-    return
+        lista = me.getValue(videos)
+        return sa.sort(lista, cmpLikes)
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 
@@ -117,4 +118,7 @@ def cmpVideosByViews(video1, video2):
         video2: informacion del segundo video que incluye su valor 'views'
     """
     return int(video1['views']) > int(video2['views'])
+
+def cmpLikes(video1, video2):
+    return int(video1['likes']) > int(video2['likes'])
 # Funciones de ordenamiento

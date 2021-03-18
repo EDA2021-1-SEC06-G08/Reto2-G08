@@ -47,6 +47,7 @@ def loadData(catalog):
     """
     loadVideos(catalog)
     loadCategories(catalog)
+    loadVideosCategories(catalog,)
 
 def loadVideos(catalog):
     """
@@ -58,7 +59,7 @@ def loadVideos(catalog):
     input_file = csv.DictReader(open(videosfile))
     for video in input_file:
         model.addVideo(catalog, video)
-        model.addVideoCategory(catalog, video)
+        model.addMapVideoCategory(catalog, video)
 
 def loadCategories(catalog):
     """
@@ -68,7 +69,7 @@ def loadCategories(catalog):
     input_file = csv.DictReader(open(categoriesfile))
     for category in input_file:
         model.addCategory(catalog, category)
-        model.addMapVideoCategory(catalog, category)
+
 
 # Funciones de ordenamiento
 
