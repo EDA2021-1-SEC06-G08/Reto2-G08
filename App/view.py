@@ -38,7 +38,10 @@ operación solicitada
 def printMenu():
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
-    print("2- Consultar videos con mas Likes para una categoria especifica")
+    print("2- Consultar n videos con mas views para un pais y una categoria especifica")
+    print("3- Consultar el video mas tendring para un pais")
+    print("4- Consultar el video mas tendring para una categoria")
+    print("5- Consultar n videos con mas likes para un pais y un tag")
     print("0- Salir del menu")
 
 def initCatalog():
@@ -53,28 +56,17 @@ def loadData(catalog):
     """
     controller.loadData(catalog)
 
-def nCategoryVideos(catalog, category):
-    return controller.nCategoryVideos(catalog, category)
-
-def nOrganizador(videos, n):
+def categoriesCargadas(categories):
     """
-    Retorna los n primeros videos
+    Imprime las categorias cargadas
     """
-    size = lt.size(videos)
-    print('Los videos son: ')
-    if size > n:
-        i=1
-        while i <= n:
-            video = lt.getElement(videos)
-            print('El titulo es: ' + video['title'])
-            print('El canal es: ' + video['channel_title'])
-            print('La fecha de trending es: ' + video['trending_date'])
-            print('La fecha de publicacion es: ' + video['publish_time'])
-            print('Las viewes son: ' + video['views'])
-            print('Los likes son: ' + video['likes'])
-            print('Los dislikes son: ' + video['dislikes'])
-            print('')
-            i+=1
+    size = lt.size(categories)
+    i=1
+    print('Las categorias son: ')
+    while i <= size:
+        category = lt.getElement(categories,i)
+        print(category['id'] + " " + category['name'])
+        i+=1
 
 catalog = None
 
@@ -91,12 +83,20 @@ while True:
         loadData(catalog)
         print('Videos cargados ' + str(lt.size(catalog['videos'])))
         print('Categorias cargadas ' + str(lt.size(catalog['categories'])))
+        categoriesCargadas(catalog['categories'])
+
     elif int(inputs[0]) == 2:
-        categoria = input("Introduzca una categoria: ")
+        x=0
+    elif int(inputs[0]) == 3:
+        x=0
+
+    elif int(inputs[0]) == 4:
+        print("Cargando informacion de videos...")
+        category = input("Introduzca una categoria: ")
         print("Cargando informacion de los videos por pais y categoria...")
-        videos = nCategoryVideos(catalog, categoria)
-        n = int(input("Introduzca la cantidad de videos: "))
-        nOrganizador(videos, n)
+        
+    elif int(inputs[0]) == 5:
+        x=0
     else:
         sys.exit(0)
 sys.exit(0)
