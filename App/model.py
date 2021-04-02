@@ -51,8 +51,7 @@ def newCatalog():
     catalog = {'videos':None,
                 'categories':None,
                 'videosCategory':None,
-                'videosCountry':None,
-                'videosTag':None
+                'videosCountry':None
                 }
 
     catalog['videos'] = lt.newList('SINGLE_LINKED',
