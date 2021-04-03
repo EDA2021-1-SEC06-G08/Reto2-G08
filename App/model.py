@@ -150,6 +150,36 @@ def newCategory(name, id):
 # Funciones de consulta
 # =====================
 
+#requerimiento 1
+def VideoMasLikes(catalog, country, category):
+    idEsta = mp.contains(catalog['videosCountry'], country)
+    if idEsta:
+        entry = mp.get(catalog['videosCountry'], country)
+        videos = me.getValue(entry)
+        category_list = lt.newList('ARRAY_LIST')
+        iterador = it.newIterator(videos)
+        while it.hasNext(iterador):
+            elemento = it.next(iterador)
+            if comparecategory_video(category, elemento, catalog) == 1:
+                lt.addLast(category_list,elemento)
+                #tenemos que ordenar category_list por likes 
+                category_list = sa.sort(category_list, cmpVideosByViews)
+    return category_list
+
+    
+
+
+def relacionar_id_categorias(category, catalog):
+    nombre = ""
+    iterador = it.newIterator(catalog['categories'])
+    while it.hasNext(iterador):
+        elemento = it.next(iterador)
+        if category == elemento['id']:
+            nombre = elemento['name']
+            break
+    return nombre
+
+
 
 #Requerimiento 3
 
@@ -216,6 +246,10 @@ def VideosMasLikesTags(catalog, country, tag):
 # Funciones utilizadas para comparar elementos dentro de una lista
 # ================================================================
 
+def comparecategory_video(category, video, catalog):
+    relacion = relacionar_id_categorias(video['category_id'], catalog)
+    if category == relacion:
+        return 1
 
 def comparecategories(name, category):
     """
