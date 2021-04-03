@@ -28,6 +28,7 @@
 import config as cf
 from DISClib.ADT import list as lt
 from DISClib.ADT import map as mp
+from DISClib.DataStructures import listiterator as it
 from DISClib.DataStructures import mapentry as me
 from DISClib.Algorithms.Sorting import quicksort as sa
 assert cf
@@ -62,7 +63,7 @@ def newCatalog():
                                             maptype='PROBING',
                                             loadfactor=0.4,
                                             comparefunction=cmpcategory)
-    catalog['videosCountry'] = mp.newMap(800,
+    catalog['videosCountry'] = mp.newMap(600,
                                             maptype='PROBING',
                                             loadfactor=0.4,
                                             comparefunction=cmpcountry)
@@ -100,14 +101,14 @@ def addMapVideoCategory(catalog, video):
     if not(idEsta):
         mp.put(catalog['videosCategory'], video['category_id'], lt.newList('ARRAY_LIST'))
         entry = mp.get(catalog['videosCategory'], video['category_id'])
-        lista = me.getValue(entry)
-        lt.addLast(lista, video)
-        mp.put(catalog['videosCategory'], video['category_id'], lista)
+        videos = me.getValue(entry)
+        lt.addLast(videos, video)
+        mp.put(catalog['videosCategory'], video['category_id'], videos)
     else:
         entry = mp.get(catalog['videosCategory'], video['category_id'])
-        lista = me.getValue(entry)
-        lt.addLast(lista, video)
-        mp.put(catalog['videosCategory'], video['category_id'], lista)
+        videos = me.getValue(entry)
+        lt.addLast(videos, video)
+        mp.put(catalog['videosCategory'], video['category_id'], videos)
 
 def addMapVideoCountry(catalog, video):
     """
@@ -118,14 +119,14 @@ def addMapVideoCountry(catalog, video):
     if not(idEsta):
         mp.put(catalog['videosCountry'], video['country'], lt.newList('ARRAY_LIST'))
         entry = mp.get(catalog['videosCountry'], video['country'])
-        lista = me.getValue(entry)
-        lt.addLast(lista, video)
-        mp.put(catalog['videosCountry'], video['country'], lista) 
+        videos = me.getValue(entry)
+        lt.addLast(videos, video)
+        mp.put(catalog['videosCountry'], video['country'], videos) 
     else:
         entry = mp.get(catalog['videosCountry'], video['country'])
-        lista = me.getValue(entry)
-        lt.addLast(lista, video)
-        mp.put(catalog['videosCountry'], video['country'], lista)
+        videos = me.getValue(entry)
+        lt.addLast(videos, video)
+        mp.put(catalog['videosCountry'], video['country'], videos)
 
 
 
@@ -150,6 +151,42 @@ def newCategory(name, id):
 # =====================
 
 
+#Requerimiento 3
+
+def TrendingVideoCategory(catalog, category):
+    """
+    Busca la categoria dentro del map y retorna la lista con los videos de esa categoria.
+    Despues compara los titulos de los videos y busca cual es que mas se repite.
+    """
+    idEsta = mp.contains(catalog['videosCategory'], category)
+    if idEsta:
+        entry = mp.get(catalog['videosCategory'], category)
+        videos = me.getValue(entry)
+        videos = sa.sort(videos, cmpTitle)
+        diasValGrande = 0
+        diasValPequenio = 0
+        videoGrande = None
+        videoPequenio = None
+        videoAnterior = None
+        iterador = it.newIterator(videos)
+        while it.hasNext(iterador):
+            video = it.next(iterador)
+            title = video['title']
+            if videoPequenio == None:
+                videoPequenio = title
+            elif title == videoPequenio:
+                diasValPequenio += 1
+            else:
+                if diasValGrande < diasValPequenio:
+                    diasValGrande = diasValPequenio
+                    videoGrande = videoAnterior
+                diasValPequenio = 1
+                videoPequenio = title
+            videoAnterior = video
+        return videoGrande,diasValGrande
+
+#requerimiento 4
+
 
 
 
@@ -164,6 +201,9 @@ def comparecategories(name, category):
     """
     if name == category:
         return 0
+
+def cmpTitle(video1, video2):
+    return video2['title'] > video1['title']
 
 def cmpVideosByViews(video1, video2):
     """

@@ -68,6 +68,24 @@ def categoriesCargadas(categories):
         print(category['id'] + " " + category['name'])
         i+=1
 
+
+def TrendingVideoCategory(catalog, category):
+    """
+    Retorna la tupla que contiene la informacion del video y la cantidad 
+    de dias que fue trending seguna la categoria pasada como parametro
+    """
+    return controller.TrendingVideoCategory(catalog, category)
+
+def TrendingVideo(catalog, category):
+    """
+    Retorna la informacion del video desglozada
+    """
+    video = TrendingVideoCategory(catalog, category)
+    print('El titulo es: ' + video[0]['title'])
+    print('El nombre del canal es: ' + video[0]['channel_title'])
+    print('La categoria es: ' + video[0]['category_id'])
+    print('La cantidad de dias que fue trending es: ' + str(video[1]))
+
 catalog = None
 
 """
@@ -91,10 +109,9 @@ while True:
         x=0
 
     elif int(inputs[0]) == 4:
-        print("Cargando informacion de videos...")
         category = input("Introduzca una categoria: ")
-        print("Cargando informacion de los videos por pais y categoria...")
-        
+        print("Cargando informacion de los videos por categoria...")
+        TrendingVideo(catalog, category)
     elif int(inputs[0]) == 5:
         x=0
     else:
