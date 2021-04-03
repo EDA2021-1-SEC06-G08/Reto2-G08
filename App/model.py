@@ -187,6 +187,28 @@ def TrendingVideoCategory(catalog, category):
 
 #requerimiento 4
 
+def VideosMasLikesTags(catalog, country, tag):
+    """
+    Busca el pais dentro del map y retorna la lista con los videos de ese pais.
+    Despues crea una lista que va a contener los tags y compare si el tag que pasa por
+    parametro se encuentra en la lista de tag si es asi introduci el video dentro de la lista
+    a retornar.
+    Ademas organizar por cantidad de likes.
+    """
+    idEsta = mp.contains(catalog['videosCountry'], country)
+    if idEsta:
+        entry = mp.get(catalog['videosCountry'], country)
+        videos = me.getValue(entry)
+        taglist = lt.newList('ARRAY_LIST')
+        iterador = it.newIterator(videos)
+        while it.hasNext(iterador):
+            video = it.next(iterador)
+            lista_tags = video['tags'].split("|")
+            tag_entre_comillas = '"' + tag + '"'
+            if tag_entre_comillas in lista_tags:
+                lt.addLast(taglist, video)
+        taglist = sa.sort(taglist, cmpLikes)
+        return taglist
 
 
 

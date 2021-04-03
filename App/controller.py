@@ -83,9 +83,19 @@ def loadCategories(catalog):
 # Funciones de consulta sobre el catálogo
 # =======================================
 
+# requerimiento 3
+
 def TrendingVideoCategory(catalog, category):
     """
     Contiene la informacion del video mas trendring por category que es pasada como parametro
     y la cantidad de dias que fue trending
     """
     return model.TrendingVideoCategory(catalog, category)
+
+# requerimiento 4
+
+def VideosMasLikesTags(catalog, country, tag):
+    """
+    Contiene los videos organizados por likes
+    """
+    return model.VideosMasLikesTags(catalog, country, tag)

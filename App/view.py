@@ -68,6 +68,7 @@ def categoriesCargadas(categories):
         print(category['id'] + " " + category['name'])
         i+=1
 
+# requerimiento 3
 
 def TrendingVideoCategory(catalog, category):
     """
@@ -85,6 +86,33 @@ def TrendingVideo(catalog, category):
     print('El nombre del canal es: ' + video[0]['channel_title'])
     print('La categoria es: ' + video[0]['category_id'])
     print('La cantidad de dias que fue trending es: ' + str(video[1]))
+
+# requerimiento 4
+
+def VideosMasLikesTags(catalog, country, tag):
+    """
+    Retorna la lista con los videos organizados por likes
+    """
+    return controller.VideosMasLikesTags(catalog, country, tag)
+
+def nVideosLikes(videos, n):
+    """
+    Retorna los n primeros videos con mas likes
+    """
+    size = lt.size(videos)
+    print('Los videos son: ')
+    if size > n:
+        i=1
+        while i <=n:
+            video = lt.getElement(videos, i)
+            print('El titulo es: ' + video['title'])
+            print('El canal es: ' + video['channel_title'])
+            print('La fecha de publicacion es: ' + video['publish_time'])
+            print('Las viewes son: ' + video['views'])
+            print('Los likes son: ' + video['likes'])
+            print('Los dislikes son: ' + video['dislikes'])
+            print('Los tags son: ' + video['tags'])
+            i+=1
 
 catalog = None
 
@@ -113,7 +141,12 @@ while True:
         print("Cargando informacion de los videos por categoria...")
         TrendingVideo(catalog, category)
     elif int(inputs[0]) == 5:
-        x=0
+        country = input("Introduzca un pais: ")
+        tag = input("Introduzca un tag: ")
+        n = int(input("Introduzca la cantidad de videos con mas likes: "))
+        print("Cargando informacion de los videos por tag y pais")
+        videos = VideosMasLikesTags(catalog, country, tag)
+        nVideosLikes(videos, n)
     else:
         sys.exit(0)
 sys.exit(0)
