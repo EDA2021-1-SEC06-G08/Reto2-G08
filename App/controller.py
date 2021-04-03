@@ -29,7 +29,11 @@ import csv
 El controlador se encarga de mediar entre la vista y el modelo.
 """
 
+
+# =====================================
 # Inicialización del Catálogo de libros
+# =====================================
+
 
 def initCatalog():
     """
@@ -38,7 +42,12 @@ def initCatalog():
     catalog = model.newCatalog()
     return catalog
 
+
+
+# ================================
 # Funciones para la carga de datos
+# ================================
+
 
 def loadData(catalog):
     """
@@ -47,33 +56,46 @@ def loadData(catalog):
     """
     loadVideos(catalog)
     loadCategories(catalog)
-    loadVideosCategories(catalog,)
 
 def loadVideos(catalog):
     """
     Carga los videos del archivo. Por cada video se toma su categoria y por
-    cada una de ellas, se crea en la lsita de categorias, a dicha categoria 
+    cada una de ellas, se crea en la lista de categorias, a dicha categoria 
     una referencia al video que se esta procesando.
     """
-    videosfile = cf.data_dir + 'videos-large.csv'
-    input_file = csv.DictReader(open(videosfile, errors="ignore"))
+    videosfile = cf.data_dir + 'videos-small.csv'
+    input_file = csv.DictReader(open(videosfile, encoding = "utf8", errors="ignore"))
     for video in input_file:
         model.addVideo(catalog, video)
-        model.addMapVideoCategory(catalog, video)
 
 def loadCategories(catalog):
     """
     Carga todas las categorias del archivo y las agrega a la lista de categorias
     """
     categoriesfile = cf.data_dir + 'category-id.csv'
-    input_file = csv.DictReader(open(categoriesfile, errors="ignore"))
+    input_file = csv.DictReader(open(categoriesfile,encoding = "utf8", errors="ignore"))
     for category in input_file:
         model.addCategory(catalog, category)
 
 
-# Funciones de ordenamiento
 
+# =======================================
 # Funciones de consulta sobre el catálogo
+# =======================================
 
-def nCategoryVideos(catalog, category):
-    return model.nCategoryVideos(catalog, category)
+# requerimiento 3
+
+def TrendingVideoCategory(catalog, category):
+    """
+    Contiene la informacion del video mas trendring por category que es pasada como parametro
+    y la cantidad de dias que fue trending
+    """
+    return model.TrendingVideoCategory(catalog, category)
+
+# requerimiento 4
+
+def VideosMasLikesTags(catalog, country, tag):
+    """
+    Contiene los videos organizados por likes
+    """
+    return model.VideosMasLikesTags(catalog, country, tag)

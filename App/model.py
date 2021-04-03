@@ -28,6 +28,7 @@
 import config as cf
 from DISClib.ADT import list as lt
 from DISClib.ADT import map as mp
+from DISClib.DataStructures import listiterator as it
 from DISClib.DataStructures import mapentry as me
 from DISClib.Algorithms.Sorting import quicksort as sa
 assert cf
@@ -37,7 +38,12 @@ Se define la estructura de un catálogo de videos. El catálogo tendrá dos list
 los mismos.
 """
 
+
+# =======================
 # Construccion de modelos
+# =======================
+
+
 def newCatalog():
     """
     Inicializa el catálogo de videos. Crea una lista vacia para guardar todos los videos,
@@ -45,24 +51,38 @@ def newCatalog():
     """
     catalog = {'videos':None,
                 'categories':None,
-                'videosCategoria':None
+                'videosCategory':None,
+                'videosCountry':None
                 }
 
     catalog['videos'] = lt.newList('SINGLE_LINKED',
                                        cmpfunction=cmpVideosByViews)
     catalog['categories'] = lt.newList('SINGLE_LINKED',
                                        cmpfunction=comparecategories)
-    catalog['videosCategory'] = mp.newMap(40,
+    catalog['videosCategory'] = mp.newMap(100,
                                             maptype='PROBING',
-                                            loadfactor=0.5,
-                                            comparefunction=comparecategories)
+                                            loadfactor=0.4,
+                                            comparefunction=cmpcategory)
+    catalog['videosCountry'] = mp.newMap(600,
+                                            maptype='PROBING',
+                                            loadfactor=0.4,
+                                            comparefunction=cmpcountry)
     return catalog
 
+
+
+# ==============================================
 # Funciones para agregar informacion al catalogo
+# ==============================================
+
 
 def addVideo(catalog, video):
-    # Se adiciona el video a la lista de videos
+    """
+    Se adiciona el video a la lista de videos
+    """
     lt.addLast(catalog['videos'],video)
+    addMapVideoCategory(catalog, video)
+    addMapVideoCountry(catalog, video)
 
 def addCategory(catalog, category):
     """
@@ -73,18 +93,47 @@ def addCategory(catalog, category):
         lt.addLast(catalog['categories'], t)
 
 def addMapVideoCategory(catalog, video):
+    """
+    Adiciona una category como llave en el map y como value una lista 
+    que contiene los videos que sean de igual category
+    """
     idEsta = mp.contains(catalog['videosCategory'], video['category_id'])
     if not(idEsta):
-        mp.put(catalog['videosCategory'], video['category_id'], lt.newList('ARRAY_LIST')
-        lista = mp.getValue(catalog['videosCategory'], video['category_id'])
-        lt.addLast(lista, video)
-        mp.put(catalog['videosCategory'], video['category_id'], lista)
+        mp.put(catalog['videosCategory'], video['category_id'], lt.newList('ARRAY_LIST'))
+        entry = mp.get(catalog['videosCategory'], video['category_id'])
+        videos = me.getValue(entry)
+        lt.addLast(videos, video)
+        mp.put(catalog['videosCategory'], video['category_id'], videos)
     else:
-        lista = mp.getValue(catalog['videosCategory', video['category_id'])
-        lt.addLast(lista, video)
-        mp.put(catalog['videosCategory'], video['category_id'], lista)
+        entry = mp.get(catalog['videosCategory'], video['category_id'])
+        videos = me.getValue(entry)
+        lt.addLast(videos, video)
+        mp.put(catalog['videosCategory'], video['category_id'], videos)
 
+def addMapVideoCountry(catalog, video):
+    """
+    Adiciona un country como llave en el map y como value una lista
+    que contiene los videos que sean de igual pais
+    """
+    idEsta = mp.contains(catalog['videosCountry'], video['country'])
+    if not(idEsta):
+        mp.put(catalog['videosCountry'], video['country'], lt.newList('ARRAY_LIST'))
+        entry = mp.get(catalog['videosCountry'], video['country'])
+        videos = me.getValue(entry)
+        lt.addLast(videos, video)
+        mp.put(catalog['videosCountry'], video['country'], videos) 
+    else:
+        entry = mp.get(catalog['videosCountry'], video['country'])
+        videos = me.getValue(entry)
+        lt.addLast(videos, video)
+        mp.put(catalog['videosCountry'], video['country'], videos)
+
+
+
+# ================================
 # Funciones para creacion de datos
+# ================================
+
 
 def newCategory(name, id):
     """
@@ -95,20 +144,88 @@ def newCategory(name, id):
     category['id'] = id
     return category
 
+
+
+# =====================
 # Funciones de consulta
+# =====================
 
-def nCategoryVideos(catalog, category):
-    video = mp.contains(catalog['videosCategory'], category)
-    if video:
-        videos = mp.get(catalog['videosCategory'], category)
-        lista = me.getValue(videos)
-        return sa.sort(lista, cmpLikes)
 
+#Requerimiento 3
+
+def TrendingVideoCategory(catalog, category):
+    """
+    Busca la categoria dentro del map y retorna la lista con los videos de esa categoria.
+    Despues compara los titulos de los videos y busca cual es que mas se repite.
+    """
+    idEsta = mp.contains(catalog['videosCategory'], category)
+    if idEsta:
+        entry = mp.get(catalog['videosCategory'], category)
+        videos = me.getValue(entry)
+        videos = sa.sort(videos, cmpTitle)
+        diasValGrande = 0
+        diasValPequenio = 0
+        videoGrande = None
+        videoPequenio = None
+        videoAnterior = None
+        iterador = it.newIterator(videos)
+        while it.hasNext(iterador):
+            video = it.next(iterador)
+            title = video['title']
+            if videoPequenio == None:
+                videoPequenio = title
+            elif title == videoPequenio:
+                diasValPequenio += 1
+            else:
+                if diasValGrande < diasValPequenio:
+                    diasValGrande = diasValPequenio
+                    videoGrande = videoAnterior
+                diasValPequenio = 1
+                videoPequenio = title
+            videoAnterior = video
+        return videoGrande,diasValGrande
+
+#requerimiento 4
+
+def VideosMasLikesTags(catalog, country, tag):
+    """
+    Busca el pais dentro del map y retorna la lista con los videos de ese pais.
+    Despues crea una lista que va a contener los tags y compare si el tag que pasa por
+    parametro se encuentra en la lista de tag si es asi introduci el video dentro de la lista
+    a retornar.
+    Ademas organizar por cantidad de likes.
+    """
+    idEsta = mp.contains(catalog['videosCountry'], country)
+    if idEsta:
+        entry = mp.get(catalog['videosCountry'], country)
+        videos = me.getValue(entry)
+        taglist = lt.newList('ARRAY_LIST')
+        iterador = it.newIterator(videos)
+        while it.hasNext(iterador):
+            video = it.next(iterador)
+            lista_tags = video['tags'].split("|")
+            tag_entre_comillas = '"' + tag + '"'
+            if tag_entre_comillas in lista_tags:
+                lt.addLast(taglist, video)
+        taglist = sa.sort(taglist, cmpLikes)
+        return taglist
+
+
+
+# ================================================================
 # Funciones utilizadas para comparar elementos dentro de una lista
+# ================================================================
+
 
 def comparecategories(name, category):
+    """
+    Compara si name se encuentra como category
+    """
     if name == category:
         return 0
+
+def cmpTitle(video1, video2):
+    return video2['title'] > video1['title']
 
 def cmpVideosByViews(video1, video2):
     """
@@ -120,7 +237,34 @@ def cmpVideosByViews(video1, video2):
     return int(video1['views']) > int(video2['views'])
 
 def cmpLikes(video1, video2):
+    """
+    Devuelve verdadero (True) si los 'likes' del video1 son menos que los del video2
+     Args:
+        video1: informacion del primer video que incluye su valor 'views'
+        video2: informacion del segundo video que incuye su valor 'views'
+    """
     return int(video1['likes']) > int(video2['likes'])
-# Funciones de ordenamiento
 
-#requerimiento 1 
+def cmpcategory(category, catalog):
+    """
+    Compara si la category del video es igual a alguna llave
+    """
+    categoryentry = me.getKey(catalog)
+    if category == categoryentry:
+        return 0
+    elif category > categoryentry:
+        return 1
+    else: 
+        return -1
+
+def cmpcountry(country, catalog):
+    """
+    Compara si el country del video es igual a alguna llave
+    """
+    countryentry = me.getKey(catalog)
+    if country == countryentry:
+        return 0
+    elif country > countryentry:
+        return 1
+    else:
+        return -1
