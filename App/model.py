@@ -122,3 +122,5 @@ def cmpVideosByViews(video1, video2):
 def cmpLikes(video1, video2):
     return int(video1['likes']) > int(video2['likes'])
 # Funciones de ordenamiento
+
+#requerimiento 1 
