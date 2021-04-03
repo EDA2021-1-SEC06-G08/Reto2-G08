@@ -56,7 +56,7 @@ def loadVideos(catalog):
     una referencia al video que se esta procesando.
     """
     videosfile = cf.data_dir + 'videos-large.csv'
-    input_file = csv.DictReader(open(videosfile))
+    input_file = csv.DictReader(open(videosfile, errors="ignore"))
     for video in input_file:
         model.addVideo(catalog, video)
         model.addMapVideoCategory(catalog, video)
@@ -66,7 +66,7 @@ def loadCategories(catalog):
     Carga todas las categorias del archivo y las agrega a la lista de categorias
     """
     categoriesfile = cf.data_dir + 'category-id.csv'
-    input_file = csv.DictReader(open(categoriesfile))
+    input_file = csv.DictReader(open(categoriesfile, errors="ignore"))
     for category in input_file:
         model.addCategory(catalog, category)
 
