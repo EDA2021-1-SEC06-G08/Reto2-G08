@@ -202,6 +202,6 @@ while True:
         print("Cargando informacion de los videos por tag y pais")
         videos = VideosMasLikesTags(catalog, country, tag)
         nVideosLikes(videos, n)
-    else:
-        sys.exit(0)
-sys.exit(0)
+    #else:
+      #  sys.exit(0)
+#sys.exit(0)
