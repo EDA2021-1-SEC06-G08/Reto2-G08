@@ -23,7 +23,8 @@
 import config as cf
 import model
 import csv
-
+import tracemalloc
+import time
 
 """
 El controlador se encarga de mediar entre la vista y el modelo.
@@ -35,11 +36,32 @@ El controlador se encarga de mediar entre la vista y el modelo.
 # =====================================
 
 
-def initCatalog():
+def initCatalogProbing(carga):
     """
     Llama la funcion de inicializacion del catalogo del modelo en modo ARRA_LIST.
     """
-    catalog = model.newCatalog()
+    delta_time = -1.0
+    delta_memory = -1.0
+
+    tracemalloc.start()
+    start_time = getTime()
+    start_memory = getMemory()
+
+    catalog = model.newCatalogProbing(carga)
+
+    stop_memory = getMemory()
+    stop_time = getTime()
+    tracemalloc.stop()
+
+    delta_time = stop_time - start_time
+    delta_memory = deltaMemory(start_memory, stop_memory)
+    return delta_time, delta_memory
+
+def initCatalogChaining(carga):
+    """
+    Llama la funcion de inicializacion del catalogo del modelo en modo ARRA_LIST.
+    """
+    catalog = model.newCatalogChaining(carga)
     return catalog
 
 
@@ -63,7 +85,7 @@ def loadVideos(catalog):
     cada una de ellas, se crea en la lista de categorias, a dicha categoria 
     una referencia al video que se esta procesando.
     """
-    videosfile = cf.data_dir + 'videos-large.csv'
+    videosfile = cf.data_dir + 'videos-small.csv'
     input_file = csv.DictReader(open(videosfile, encoding = "utf8", errors="ignore"))
     for video in input_file:
         model.addVideo(catalog, video)
@@ -107,3 +129,26 @@ def VideosMasLikesTags(catalog, country, tag):
     Contiene los videos organizados por likes
     """
     return model.VideosMasLikesTags(catalog, country, tag)
+
+
+def getTime():
+    """
+    devuelve el instante tiempo de procesamiento en milisegundos
+    """
+    return float(time.perf_counter()*1000)
+
+
+def getMemory():
+    """
+    toma una muestra de la memoria alocada en instante de tiempo
+    """
+    return tracemalloc.take_snapshot()
+
+
+def deltaMemory(start_memory, stop_memory):
+    """
+    calcula la diferencia en memoria alocada del programa entre dos
+    instantes de tiempo y devuelve el resultado en bytes (ej.: 2100.0 B)
+    """
+    memory_diff = stop_memory.compare_to(start_memory, "filename")
+    delta_memory = 0.0

@@ -44,7 +44,7 @@ los mismos.
 # =======================
 
 
-def newCatalog():
+def newCatalogProbing(carga):
     """
     Inicializa el catálogo de videos. Crea una lista vacia para guardar todos los videos,
     adicionalmente, crea una lista vacia para las categorias. Retorna el catalogo inicializado.
@@ -61,13 +61,41 @@ def newCatalog():
                                        cmpfunction=comparecategories)
     catalog['videosCategory'] = mp.newMap(100,
                                             maptype='PROBING',
-                                            loadfactor=0.4,
+                                            loadfactor= float(carga),
                                             comparefunction=cmpcategory)
     catalog['videosCountry'] = mp.newMap(600,
                                             maptype='PROBING',
-                                            loadfactor=0.4,
+                                            loadfactor= float(carga),
                                             comparefunction=cmpcountry)
     return catalog
+
+
+def newCatalogChaining(carga):
+    """
+    Inicializa el catálogo de videos. Crea una lista vacia para guardar todos los videos,
+    adicionalmente, crea una lista vacia para las categorias. Retorna el catalogo inicializado.
+    """
+    catalog = {'videos':None,
+                'categories':None,
+                'videosCategory':None,
+                'videosCountry':None
+                }
+
+    catalog['videos'] = lt.newList('SINGLE_LINKED',
+                                       cmpfunction=cmpVideosByViews)
+    catalog['categories'] = lt.newList('SINGLE_LINKED',
+                                       cmpfunction=comparecategories)
+    catalog['videosCategory'] = mp.newMap(100,
+                                            maptype='CHAINING',
+                                            loadfactor= float(carga),
+                                            comparefunction=cmpcategory)
+    catalog['videosCountry'] = mp.newMap(600,
+                                            maptype='CHAINING',
+                                            loadfactor= float(carga),
+                                            comparefunction=cmpcountry)
+    return catalog
+
+
 
 
 

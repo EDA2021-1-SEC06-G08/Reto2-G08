@@ -37,7 +37,8 @@ operación solicitada
 
 def printMenu():
     print("Bienvenido")
-    print("1- Cargar información en el catálogo")
+    print("0- Cargar información en el catálogo con probing")
+    print("1- Cargar información en el catálogo con chaining")
     print("2- Consultar n videos con mas views para un pais y una categoria especifica")
     print("3- Consultar el video mas tendring para un pais")
     print("4- Consultar el video mas tendring para una categoria")
@@ -157,14 +158,22 @@ Menu principal
 while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')
-    if int(inputs[0]) == 1:
+    if int(inputs[0]) == 0:
         print("Cargando información de los archivos ....")
-        catalog = initCatalog()
+        carga = input('Inserte el factor de carga: ')
+        catalog = controller.initCatalogProbing(carga)
         loadData(catalog)
         print('Videos cargados ' + str(lt.size(catalog['videos'])))
         print('Categorias cargadas ' + str(lt.size(catalog['categories'])))
         categoriesCargadas(catalog['categories'])
-
+    elif int(inputs[0]) == 1:
+        print("Cargando información de los archivos ....")
+        carga = input('Inserte el factor de carga: ')
+        catalog = controller.initCatalogChaining(carga)
+        loadData(catalog)
+        print('Videos cargados ' + str(lt.size(catalog['videos'])))
+        print('Categorias cargadas ' + str(lt.size(catalog['categories'])))
+        categoriesCargadas(catalog['categories'])
     elif int(inputs[0]) == 2:
         pais = input("Introduzca un pais: ")
         category = input("Introduzca una categoria: ")
