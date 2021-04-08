@@ -43,7 +43,7 @@ def printMenu():
     print("3- Consultar el video mas tendring para un pais")
     print("4- Consultar el video mas tendring para una categoria")
     print("5- Consultar n videos con mas likes para un pais y un tag")
-    print("0- Salir del menu")
+   
 
 def initCatalog():
     """
