@@ -37,12 +37,12 @@ operación solicitada
 
 def printMenu():
     print("Bienvenido")
+    print("0- Para salir del programa")
     print("1- Cargar información en el catálogo")
     print("2- Consultar n videos con mas views para un pais y una categoria especifica")
     print("3- Consultar el video mas tendring para un pais")
     print("4- Consultar el video mas tendring para una categoria")
     print("5- Consultar n videos con mas likes para un pais y un tag")
-    print("0- Salir del menu")
 
 def initCatalog():
     """
@@ -125,14 +125,15 @@ while True:
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
         print("Cargando información de los archivos ....")
-        catalog = initCatalog()
-        loadData(catalog)
+        catalog = controller.initCatalog()
         print('Videos cargados ' + str(lt.size(catalog['videos'])))
         print('Categorias cargadas ' + str(lt.size(catalog['categories'])))
         categoriesCargadas(catalog['categories'])
-
     elif int(inputs[0]) == 2:
-        x=0
+        pais = input("Introduzca un pais: ")
+        category = input("Introduzca una categoria: ")
+        print("Cargando informacion de los videos con más likes por país y categoría...")
+        respuesta = controller.VideoMasLikes(catalog, pais, category)
     elif int(inputs[0]) == 3:
         x=0
 
