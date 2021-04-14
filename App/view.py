@@ -37,12 +37,12 @@ operación solicitada
 
 def printMenu():
     print("Bienvenido")
-    print("0- Para salir del programa")
     print("1- Cargar información en el catálogo")
     print("2- Consultar n videos con mas views para un pais y una categoria especifica")
     print("3- Consultar el video mas tendring para un pais")
     print("4- Consultar el video mas tendring para una categoria")
     print("5- Consultar n videos con mas likes para un pais y un tag")
+    print("0- Salir del menu")
 
 def initCatalog():
     """
@@ -68,41 +68,14 @@ def categoriesCargadas(categories):
         print(category['id'] + " " + category['name'])
         i+=1
 
-#requerimiento 1
-def trendingVideoCountry (catalog, country): 
-    return controller.video_mas_trending_pais(catalog, country)
+# requerimiento 3
 
-def TrendingVideoC(catalog, country):
+def TrendingVideoCategory(catalog, category):
     """
-    Retorna la informacion del video desglozada
+    Retorna la tupla que contiene la informacion del video y la cantidad 
+    de dias que fue trending seguna la categoria pasada como parametro
     """
-    video = trendingVideoCountry(catalog, country)
-    print('El titulo es: ' + video[0]['title'])
-    print('El nombre del canal es: ' + video[0]['channel_title'])
-    print('El país es: ' + video[0]['country'])
-    print('La cantidad de dias que fue trending es: ' + str(video[1]))
-
-
-def nVideosViews(videos,n):
-    """
-    Retorna los n primeros videos con mas views 
-    """
-    size = lt.size(videos)
-    print('Los videos son: ')
-    if size > n:
-        i=1
-        while i <=n:
-            video = lt.getElement(videos, i)
-            print('El titulo es: ' + video['title'])
-            print('La trending date es: ' + video['trending_date'])
-            print('El canal es: ' + video['channel_title'])
-            print('La fecha de publicacion es: ' + video['publish_time'])
-            print('Las views son: ' + video['views'])
-            print('Los likes son: ' + video['likes'])
-            print('Los dislikes son: ' + video['dislikes'])
-            i+=1
-
-
+    return controller.TrendingVideoCategory(catalog, category)
 
 def TrendingVideo(catalog, category):
     """
@@ -141,7 +114,6 @@ def nVideosLikes(videos, n):
             print('Los tags son: ' + video['tags'])
             i+=1
 
-
 catalog = None
 
 """
@@ -153,10 +125,12 @@ while True:
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
         print("Cargando información de los archivos ....")
-        catalog = controller.initCatalog()
+        catalog = initCatalog()
+        loadData(catalog)
         print('Videos cargados ' + str(lt.size(catalog['videos'])))
         print('Categorias cargadas ' + str(lt.size(catalog['categories'])))
         categoriesCargadas(catalog['categories'])
+
     elif int(inputs[0]) == 2:
         x=0
     elif int(inputs[0]) == 3:
