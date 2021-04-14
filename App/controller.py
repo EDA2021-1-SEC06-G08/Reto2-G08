@@ -23,8 +23,7 @@
 import config as cf
 import model
 import csv
-import tracemalloc
-import time
+
 
 """
 El controlador se encarga de mediar entre la vista y el modelo.
@@ -34,7 +33,6 @@ El controlador se encarga de mediar entre la vista y el modelo.
 # =====================================
 # Inicialización del Catálogo de libros
 # =====================================
-
 
 
 def initCatalog():
@@ -75,7 +73,7 @@ def loadCategories(catalog):
     Carga todas las categorias del archivo y las agrega a la lista de categorias
     """
     categoriesfile = cf.data_dir + 'category-id.csv'
-    input_file = csv.DictReader(open(categoriesfile,encoding = "utf8", errors="ignore"))
+    input_file = csv.DictReader(open(categoriesfile))
     for category in input_file:
         model.addCategory(catalog, category)
 
