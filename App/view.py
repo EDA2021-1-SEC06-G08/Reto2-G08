@@ -37,8 +37,7 @@ operación solicitada
 
 def printMenu():
     print("Bienvenido")
-    print("0- Cargar información en el catálogo con probing")
-    print("1- Cargar información en el catálogo con chaining")
+    print("1- Cargar información en el catálogo")
     print("2- Consultar n videos con mas views para un pais y una categoria especifica")
     print("3- Consultar el video mas tendring para un pais")
     print("4- Consultar el video mas tendring para una categoria")
@@ -143,7 +142,7 @@ def nVideosViews(videos,n):
         while i <=n:
             video = lt.getElement(videos, i)
             print('El titulo es: ' + video['title'])
-            print('La trending_dates es: ' + video['trending_date'])
+            print('La trending date es: ' + video['trending_date'])
             print('El canal es: ' + video['channel_title'])
             print('La fecha de publicacion es: ' + video['publish_time'])
             print('Las viewes son: ' + video['views'])
@@ -158,26 +157,15 @@ Menu principal
 while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')
-    if int(inputs[0]) == 0:
-        carga = input('Inserte el factor de carga: ')
+    if int(inputs[0]) == 1:
         print("Cargando información de los archivos ....")
-        catalog = controller.initCatalogProbing(carga)
+        catalog = controller.initCatalog()
         answer = controller.loadData(catalog)
         print("Tiempo [ms]: ", f"{answer[0]:.3f}", "  ||  ",
               "Memoria [kB]: ", f"{answer[1]:.3f}")
-        #print('Videos cargados ' + str(lt.size(catalog['videos'])))
-        #print('Categorias cargadas ' + str(lt.size(catalog['categories'])))
-        #categoriesCargadas(catalog['categories'])
-    elif int(inputs[0]) == 1:
-        carga = input('Inserte el factor de carga: ')
-        print("Cargando información de los archivos ....")
-        catalog = controller.initCatalogChaining(carga)
-        answer = controller.loadData(catalog)
-        print("Tiempo [ms]: ", f"{answer[0]:.3f}", "  ||  ",
-              "Memoria [kB]: ", f"{answer[1]:.3f}")
-        #print('Videos cargados ' + str(lt.size(catalog['videos'])))
-        #print('Categorias cargadas ' + str(lt.size(catalog['categories'])))
-        #categoriesCargadas(catalog['categories'])
+        print('Videos cargados ' + str(lt.size(catalog['videos'])))
+        print('Categorias cargadas ' + str(lt.size(catalog['categories'])))
+        categoriesCargadas(catalog['categories'])
     elif int(inputs[0]) == 2:
         pais = input("Introduzca un pais: ")
         category = input("Introduzca una categoria: ")
@@ -202,6 +190,6 @@ while True:
         print("Cargando informacion de los videos por tag y pais")
         videos = VideosMasLikesTags(catalog, country, tag)
         nVideosLikes(videos, n)
-    #else:
-      #  sys.exit(0)
-#sys.exit(0)
+    else:
+        sys.exit(0)
+sys.exit(0)

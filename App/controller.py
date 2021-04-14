@@ -36,20 +36,12 @@ El controlador se encarga de mediar entre la vista y el modelo.
 # =====================================
 
 
-def initCatalogProbing(carga):
+
+def initCatalog():
     """
     Llama la funcion de inicializacion del catalogo del modelo en modo ARRA_LIST.
     """
-    
-
-    catalog = model.newCatalogProbing(carga)
-    return catalog
-
-def initCatalogChaining(carga):
-    """
-    Llama la funcion de inicializacion del catalogo del modelo en modo ARRA_LIST.
-    """
-    catalog = model.newCatalogChaining(carga)
+    catalog = model.newCatalog()
     return catalog
 
 
