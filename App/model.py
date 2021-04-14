@@ -164,7 +164,7 @@ def VideoMasViews(catalog, country, category):
                 lt.addLast(category_list,elemento)
                 #tenemos que ordenar category_list por views 
                 category_list = sa.sort(category_list, cmpVideosByViews)
-        return category_list
+    print(category_list) 
 
 def relacionar_id_categorias(category, catalog):
     nombre = ""
