@@ -44,7 +44,7 @@ los mismos.
 # =======================
 
 
-def newCatalogProbing(carga):
+def newCatalog():
     """
     Inicializa el catálogo de videos. Crea una lista vacia para guardar todos los videos,
     adicionalmente, crea una lista vacia para las categorias. Retorna el catalogo inicializado.
@@ -61,41 +61,13 @@ def newCatalogProbing(carga):
                                        cmpfunction=comparecategories)
     catalog['videosCategory'] = mp.newMap(100,
                                             maptype='PROBING',
-                                            loadfactor= float(carga),
+                                            loadfactor=0.4,
                                             comparefunction=cmpcategory)
     catalog['videosCountry'] = mp.newMap(600,
                                             maptype='PROBING',
-                                            loadfactor= float(carga),
+                                            loadfactor=0.4,
                                             comparefunction=cmpcountry)
     return catalog
-
-
-def newCatalogChaining(carga):
-    """
-    Inicializa el catálogo de videos. Crea una lista vacia para guardar todos los videos,
-    adicionalmente, crea una lista vacia para las categorias. Retorna el catalogo inicializado.
-    """
-    catalog = {'videos':None,
-                'categories':None,
-                'videosCategory':None,
-                'videosCountry':None
-                }
-
-    catalog['videos'] = lt.newList('SINGLE_LINKED',
-                                       cmpfunction=cmpVideosByViews)
-    catalog['categories'] = lt.newList('SINGLE_LINKED',
-                                       cmpfunction=comparecategories)
-    catalog['videosCategory'] = mp.newMap(100,
-                                            maptype='CHAINING',
-                                            loadfactor= float(carga),
-                                            comparefunction=cmpcategory)
-    catalog['videosCountry'] = mp.newMap(600,
-                                            maptype='CHAINING',
-                                            loadfactor= float(carga),
-                                            comparefunction=cmpcountry)
-    return catalog
-
-
 
 
 
@@ -289,12 +261,6 @@ def VideosMasLikesTags(catalog, country, tag):
 # ================================================================
 # Funciones utilizadas para comparar elementos dentro de una lista
 # ================================================================
-def compare_id(id, video1, video2):
-    return video1['video_id'] > video2['video_id']
-def comparecategory_video(category, video, catalog):
-    relacion = relacionar_id_categorias(video['category_id'], catalog)
-    if category == relacion:
-        return 1
 
 def comparecategories(name, category):
     """

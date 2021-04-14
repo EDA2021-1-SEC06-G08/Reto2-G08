@@ -37,8 +37,7 @@ operación solicitada
 
 def printMenu():
     print("Bienvenido")
-    print("0- Cargar información en el catálogo con probing")
-    print("1- Cargar información en el catálogo con chaining")
+    print("1- Cargar información en el catálogo")
     print("2- Consultar n videos con mas views para un pais y una categoria especifica")
     print("3- Consultar el video mas tendring para un pais")
     print("4- Consultar el video mas tendring para una categoria")
@@ -68,21 +67,6 @@ def categoriesCargadas(categories):
         category = lt.getElement(categories,i)
         print(category['id'] + " " + category['name'])
         i+=1
-
-# requerimiento 2 
-def trendingVideoCountry (catalog, country): 
-    return controller.video_mas_trending_pais(catalog, country)
-
-def TrendingVideoC(catalog, country):
-    """
-    Retorna la informacion del video desglozada
-    """
-    video = trendingVideoCountry(catalog, country)
-    print('El titulo es: ' + video[0]['title'])
-    print('El nombre del canal es: ' + video[0]['channel_title'])
-    print('El país es: ' + video[0]['country'])
-    print('La cantidad de dias que fue trending es: ' + str(video[1]))
-
 
 # requerimiento 3
 
@@ -132,25 +116,6 @@ def nVideosLikes(videos, n):
 
 catalog = None
 
-def nVideosViews(videos,n):
-    """
-    Retorna los n primeros videos con mas views 
-    """
-    size = lt.size(videos)
-    print('Los videos son: ')
-    if size > n:
-        i=1
-        while i <=n:
-            video = lt.getElement(videos, i)
-            print('El titulo es: ' + video['title'])
-            print('La trending_dates es: ' + video['trending_date'])
-            print('El canal es: ' + video['channel_title'])
-            print('La fecha de publicacion es: ' + video['publish_time'])
-            print('Las viewes son: ' + video['views'])
-            print('Los likes son: ' + video['likes'])
-            print('Los dislikes son: ' + video['dislikes'])
-            i+=1
-
 """
 Menu principal
 """
@@ -158,39 +123,18 @@ Menu principal
 while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')
-    if int(inputs[0]) == 0:
-        carga = input('Inserte el factor de carga: ')
+    if int(inputs[0]) == 1:
         print("Cargando información de los archivos ....")
-        catalog = controller.initCatalogProbing(carga)
-        answer = controller.loadData(catalog)
-        print("Tiempo [ms]: ", f"{answer[0]:.3f}", "  ||  ",
-              "Memoria [kB]: ", f"{answer[1]:.3f}")
-        #print('Videos cargados ' + str(lt.size(catalog['videos'])))
-        #print('Categorias cargadas ' + str(lt.size(catalog['categories'])))
-        #categoriesCargadas(catalog['categories'])
-    elif int(inputs[0]) == 1:
-        carga = input('Inserte el factor de carga: ')
-        print("Cargando información de los archivos ....")
-        catalog = controller.initCatalogChaining(carga)
-        answer = controller.loadData(catalog)
-        print("Tiempo [ms]: ", f"{answer[0]:.3f}", "  ||  ",
-              "Memoria [kB]: ", f"{answer[1]:.3f}")
-        #print('Videos cargados ' + str(lt.size(catalog['videos'])))
-        #print('Categorias cargadas ' + str(lt.size(catalog['categories'])))
-        #categoriesCargadas(catalog['categories'])
+        catalog = initCatalog()
+        loadData(catalog)
+        print('Videos cargados ' + str(lt.size(catalog['videos'])))
+        print('Categorias cargadas ' + str(lt.size(catalog['categories'])))
+        categoriesCargadas(catalog['categories'])
+
     elif int(inputs[0]) == 2:
-        pais = input("Introduzca un pais: ")
-        category = input("Introduzca una categoria: ")
-        n = int(input("Introduzca la cantidad de videos con mas views: "))
-        print("Cargando informacion de los", n, "videos con más views por país y categoría...")
-        lista = controller.VideoMasLikes(catalog, pais, category)
-        nVideosViews(lista, n)
-
+        x=0
     elif int(inputs[0]) == 3:
-        pais = input("Introduzca un pais: ")
-        print("Cargando informacion del video más trending en", pais)
-        TrendingVideoC(catalog, pais)
-
+        x=0
     elif int(inputs[0]) == 4:
         category = input("Introduzca una categoria: ")
         print("Cargando informacion de los videos por categoria...")
@@ -202,6 +146,6 @@ while True:
         print("Cargando informacion de los videos por tag y pais")
         videos = VideosMasLikesTags(catalog, country, tag)
         nVideosLikes(videos, n)
-    #else:
-      #  sys.exit(0)
-#sys.exit(0)
+    else:
+        sys.exit(0)
+sys.exit(0)

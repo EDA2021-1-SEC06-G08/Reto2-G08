@@ -23,8 +23,7 @@
 import config as cf
 import model
 import csv
-import tracemalloc
-import time
+
 
 """
 El controlador se encarga de mediar entre la vista y el modelo.
@@ -36,20 +35,11 @@ El controlador se encarga de mediar entre la vista y el modelo.
 # =====================================
 
 
-def initCatalogProbing(carga):
+def initCatalog():
     """
     Llama la funcion de inicializacion del catalogo del modelo en modo ARRA_LIST.
     """
-    
-
-    catalog = model.newCatalogProbing(carga)
-    return catalog
-
-def initCatalogChaining(carga):
-    """
-    Llama la funcion de inicializacion del catalogo del modelo en modo ARRA_LIST.
-    """
-    catalog = model.newCatalogChaining(carga)
+    catalog = model.newCatalog()
     return catalog
 
 
@@ -64,23 +54,8 @@ def loadData(catalog):
     Carga los datos de los archivos y carga los datos en la 
     estructura datos
     """
-    delta_time = -1.0
-    delta_memory = -1.0
-
-    tracemalloc.start()
-    start_time = getTime()
-    start_memory = getMemory()
-
     loadVideos(catalog)
     loadCategories(catalog)
-    
-    stop_memory = getMemory()
-    stop_time = getTime()
-    tracemalloc.stop()
-
-    delta_time = stop_time - start_time
-    delta_memory = deltaMemory(start_memory, stop_memory)
-    return delta_time, delta_memory
 
 def loadVideos(catalog):
     """
@@ -88,8 +63,8 @@ def loadVideos(catalog):
     cada una de ellas, se crea en la lista de categorias, a dicha categoria 
     una referencia al video que se esta procesando.
     """
-    videosfile = cf.data_dir + 'videos-small.csv'
-    input_file = csv.DictReader(open(videosfile, encoding = "utf8", errors="ignore"))
+    videosfile = cf.data_dir + 'videos-large.csv'
+    input_file = csv.DictReader(open(videosfile, encoding= 'utf-8', errors='ignore'))
     for video in input_file:
         model.addVideo(catalog, video)
 
@@ -98,7 +73,7 @@ def loadCategories(catalog):
     Carga todas las categorias del archivo y las agrega a la lista de categorias
     """
     categoriesfile = cf.data_dir + 'category-id.csv'
-    input_file = csv.DictReader(open(categoriesfile,encoding = "utf8", errors="ignore"))
+    input_file = csv.DictReader(open(categoriesfile, encoding= 'utf-8',errors='ignore'))
     for category in input_file:
         model.addCategory(catalog, category)
 
@@ -107,15 +82,7 @@ def loadCategories(catalog):
 # =======================================
 # Funciones de consulta sobre el catálogo
 # =======================================
-
-
-#requerimiento 1
-def VideoMasLikes (catalog, country, category):
-    return model.VideoMasLikes(catalog, country, category)
-
-#requerimiento 2 
-def video_mas_trending_pais(catalog, country):
-    return model.video_mas_trending_pais(catalog, country)
+    
 # requerimiento 3
 
 def TrendingVideoCategory(catalog, category):
@@ -132,33 +99,3 @@ def VideosMasLikesTags(catalog, country, tag):
     Contiene los videos organizados por likes
     """
     return model.VideosMasLikesTags(catalog, country, tag)
-
-
-def getTime():
-    """
-    devuelve el instante tiempo de procesamiento en milisegundos
-    """
-    return float(time.perf_counter()*1000)
-
-
-def getMemory():
-    """
-    toma una muestra de la memoria alocada en instante de tiempo
-    """
-    return tracemalloc.take_snapshot()
-
-
-def deltaMemory(start_memory, stop_memory):
-    """
-    calcula la diferencia en memoria alocada del programa entre dos
-    instantes de tiempo y devuelve el resultado en bytes (ej.: 2100.0 B)
-    """
-    memory_diff = stop_memory.compare_to(start_memory, "filename")
-    delta_memory = 0.0
-
-    # suma de las diferencias en uso de memoria
-    for stat in memory_diff:
-        delta_memory = delta_memory + stat.size_diff
-    # de Byte -> kByte
-    delta_memory = delta_memory/1024.0
-    return delta_memory
