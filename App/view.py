@@ -68,6 +68,11 @@ def categoriesCargadas(categories):
         print(category['id'] + " " + category['name'])
         i+=1
 
+
+#requerimiento 1
+
+
+
 # requerimiento 3
 
 def TrendingVideoCategory(catalog, category):
@@ -132,7 +137,11 @@ while True:
         categoriesCargadas(catalog['categories'])
 
     elif int(inputs[0]) == 2:
-        x=0
+        country =  input("Introduzca un pais: ")
+        category = input("Introduzca una categoría: ")
+        res = controller.VideoMasViews(catalog, country, category)
+        print(res)
+
     elif int(inputs[0]) == 3:
         x=0
     elif int(inputs[0]) == 4:

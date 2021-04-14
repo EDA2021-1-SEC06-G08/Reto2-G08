@@ -63,7 +63,7 @@ def newCatalog():
                                             maptype='PROBING',
                                             loadfactor=0.4,
                                             comparefunction=cmpcategory)
-    catalog['videosCountry'] = mp.newMap(600,
+    catalog['videosCountry'] = mp.newMap(800,
                                             maptype='PROBING',
                                             loadfactor=0.4,
                                             comparefunction=cmpcountry)
@@ -151,7 +151,7 @@ def newCategory(name, id):
 # =====================
 
 #requerimiento 1
-def VideoMasLikes(catalog, country, category):
+def VideoMasViews(catalog, country, category):
     idEsta = mp.contains(catalog['videosCountry'], country)
     if idEsta:
         entry = mp.get(catalog['videosCountry'], country)
@@ -162,12 +162,22 @@ def VideoMasLikes(catalog, country, category):
             elemento = it.next(iterador)
             if comparecategory_video(category, elemento, catalog) == 1:
                 lt.addLast(category_list,elemento)
-                #tenemos que ordenar category_list por likes 
+                #tenemos que ordenar category_list por views 
                 category_list = sa.sort(category_list, cmpVideosByViews)
-    return category_list
+        return category_list
+
+def relacionar_id_categorias(category, catalog):
+    nombre = ""
+    iterador = it.newIterator(catalog['categories'])
+    while it.hasNext(iterador):
+        elemento = it.next(iterador)
+        if category == elemento['id']:
+            nombre = elemento['name']
+            break
+    return nombre
 
 #requerimiento 2 
-def video_por_pais(catalog, country):
+def video_mas_trending_pais(catalog, country):
     paisEsta = mp.contains(catalog['videosCountry'], country)
     if paisEsta:
         entry = mp.get(catalog['videosCountry'], country)
@@ -262,6 +272,13 @@ def VideosMasLikesTags(catalog, country, tag):
 # Funciones utilizadas para comparar elementos dentro de una lista
 # ================================================================
 
+#req 1 
+def comparecategory_video(category, video, catalog):
+    relacion = relacionar_id_categorias(video['category_id'], catalog)
+    if category == relacion:
+        return 1
+
+
 def comparecategories(name, category):
     """
     Compara si name se encuentra como category
@@ -313,3 +330,5 @@ def cmpcountry(country, catalog):
         return 1
     else:
         return -1
+
+        
