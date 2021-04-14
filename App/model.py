@@ -168,34 +168,6 @@ def VideoMasLikes(catalog, country, category):
 
 
 
-#requerimiento 2 
-def video_por_pais(catalog, country):
-    paisEsta = mp.contains(catalog['videosCountry'], country)
-    if paisEsta:
-        entry = mp.get(catalog['videosCountry'], country)
-        videos_por_pais = me.getValue(entry)
-        videos_por_pais = sa.sort(videos_por_pais, cmpTitle)
-        diasValGrande = 0
-        diasValPequenio = 0
-        videoGrande = None
-        videoPequenio = None
-        videoAnterior = None
-        iterador = it.newIterator(videos_por_pais)
-        while it.hasNext(iterador):
-            elemento = it.next(iterador)
-            title = elemento['title']
-            if videoPequenio == None:
-                videoPequenio = title
-            elif title == videoPequenio:
-                diasValPequenio += 1
-            else:
-                if diasValGrande < diasValPequenio:
-                    diasValGrande = diasValPequenio
-                    videoGrande = videoAnterior
-                diasValPequenio = 1
-                videoPequenio = title
-            videoAnterior = elemento
-        return videoGrande,diasValGrande
 
 
 #Requerimiento 3
@@ -262,8 +234,7 @@ def VideosMasLikesTags(catalog, country, tag):
 # ================================================================
 # Funciones utilizadas para comparar elementos dentro de una lista
 # ================================================================
-def compare_id(id, video1, video2):
-    return video1['video_id'] > video2['video_id']
+
 def comparecategory_video(category, video, catalog):
     relacion = relacionar_id_categorias(video['category_id'], catalog)
     if category == relacion:
