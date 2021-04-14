@@ -167,7 +167,34 @@ def VideoMasLikes(catalog, country, category):
     return category_list1
 
 
-
+#requerimiento 2 
+def video_por_pais(catalog, country):
+    paisEsta = mp.contains(catalog['videosCountry'], country)
+    if paisEsta:
+        entry = mp.get(catalog['videosCountry'], country)
+        videos_por_pais = me.getValue(entry)
+        videos_por_pais = sa.sort(videos_por_pais, cmpTitle)
+        diasValGrande = 0
+        diasValPequenio = 0
+        videoGrande = None
+        videoPequenio = None
+        videoAnterior = None
+        iterador = it.newIterator(videos_por_pais)
+        while it.hasNext(iterador):
+            elemento = it.next(iterador)
+            title = elemento['title']
+            if videoPequenio == None:
+                videoPequenio = title
+            elif title == videoPequenio:
+                diasValPequenio += 1
+            else:
+                if diasValGrande < diasValPequenio:
+                    diasValGrande = diasValPequenio
+                    videoGrande = videoAnterior
+                diasValPequenio = 1
+                videoPequenio = title
+            videoAnterior = elemento
+        return videoGrande,diasValGrande
 
 
 #Requerimiento 3
