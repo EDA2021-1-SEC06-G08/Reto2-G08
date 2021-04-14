@@ -153,6 +153,9 @@ def newCategory(name, id):
 
 #requerimiento 1
 def VideoMasViews(catalog, country, category):
+    """
+    Busca la categoria dentro del map y retorna la lista con los videos de esa categoria.
+    """
     idEsta = mp.contains(catalog['videosCountry'], country)
     if idEsta:
         entry = mp.get(catalog['videosCountry'], country)
@@ -165,12 +168,19 @@ def VideoMasViews(catalog, country, category):
                 lt.addLast(category_list,elemento)
         return category_list
 
+
 def organizar_videos(catalog, country, category):
+    """
+    Organiza por views, de mayor a menor, la lista con los videos por categoría especifica. 
+    """
     lista = VideoMasViews(catalog, country, category)
     lt.ordenamientoshell(lista, cmpVideosByViews)
     return lista
 
 def relacionar_id_categorias(category, catalog):
+    """
+    Devuelve el nombre de un id a partir de su número
+    """
     nombre = ""
     iterador = it.newIterator(catalog['categories'])
     while it.hasNext(iterador):
@@ -182,6 +192,10 @@ def relacionar_id_categorias(category, catalog):
 
 #requerimiento 2 
 def video_mas_trending_pais(catalog, country):
+    """
+    Busca el país dentro del map y retorna la lista con los videos de esa país.
+    Despues compara los titulos de los videos y busca cual es el video_id que más se repite.
+    """
     paisEsta = mp.contains(catalog['videosCountry'], country)
     if paisEsta:
         entry = mp.get(catalog['videosCountry'], country)

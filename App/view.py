@@ -72,7 +72,7 @@ def categoriesCargadas(categories):
 #requerimiento 1
 def nVideosViews(videos, n):
     """
-    Retorna los n primeros videos con mas likes
+    Retorna los n primeros videos con mas views.
     """
     size = lt.size(videos)
     print('Los videos son: ')
@@ -90,10 +90,18 @@ def nVideosViews(videos, n):
             i+=1
 
 #requerimiento 2 
+    
 def video_mas_trending_pais(catalog, country):
+    """
+    Retorna la tupla que contiene la informacion del video y la cantidad 
+    de dias que fue trending según el país pasado como parámetro.
+    """
     return controller.video_mas_trending_pais(catalog, country)
 
 def trendingCountryVideo(catalog, country):
+    """
+    Retorna la información del video más trending por país.
+    """
     video = video_mas_trending_pais(catalog, country)
     print('El titulo es: ' + video[0]['title'])
     print('El nombre del canal es: ' + video[0]['channel_title'])
@@ -105,7 +113,7 @@ def trendingCountryVideo(catalog, country):
 def TrendingVideoCategory(catalog, category):
     """
     Retorna la tupla que contiene la informacion del video y la cantidad 
-    de dias que fue trending seguna la categoria pasada como parametro
+    de dias que fue trending segun la categoria pasada como parametro
     """
     return controller.TrendingVideoCategory(catalog, category)
 
