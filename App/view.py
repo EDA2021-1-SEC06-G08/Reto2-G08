@@ -80,8 +80,8 @@ def nVideosViews(videos, n):
         i=1
         while i <= int(n):
             video = lt.getElement(videos, i)
+            print('------------------------------------------------------------')
             print('La trending date es: ' + video['trending_date'])
-            print('El titulo es: ' + video['title'])
             print('El canal es: ' + video['channel_title'])
             print('La fecha de publicacion es: ' + video['publish_time'])
             print('Las viewes son: ' + video['views'])
