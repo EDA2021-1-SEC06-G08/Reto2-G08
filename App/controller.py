@@ -65,8 +65,8 @@ def loadVideos(catalog):
     cada una de ellas, se crea en la lista de categorias, a dicha categoria 
     una referencia al video que se esta procesando.
     """
-    videosfile = cf.data_dir + 'videos-large.csv'
-    input_file = csv.DictReader(open(videosfile))
+    videosfile = cf.data_dir + 'videos-small.csv'
+    input_file = csv.DictReader(open(videosfile, encoding = "utf8", errors="ignore"))
     for video in input_file:
         model.addVideo(catalog, video)
 

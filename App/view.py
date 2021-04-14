@@ -68,14 +68,41 @@ def categoriesCargadas(categories):
         print(category['id'] + " " + category['name'])
         i+=1
 
-# requerimiento 3
+#requerimiento 1
+def trendingVideoCountry (catalog, country): 
+    return controller.video_mas_trending_pais(catalog, country)
 
-def TrendingVideoCategory(catalog, category):
+def TrendingVideoC(catalog, country):
     """
-    Retorna la tupla que contiene la informacion del video y la cantidad 
-    de dias que fue trending seguna la categoria pasada como parametro
+    Retorna la informacion del video desglozada
     """
-    return controller.TrendingVideoCategory(catalog, category)
+    video = trendingVideoCountry(catalog, country)
+    print('El titulo es: ' + video[0]['title'])
+    print('El nombre del canal es: ' + video[0]['channel_title'])
+    print('El país es: ' + video[0]['country'])
+    print('La cantidad de dias que fue trending es: ' + str(video[1]))
+
+
+def nVideosViews(videos,n):
+    """
+    Retorna los n primeros videos con mas views 
+    """
+    size = lt.size(videos)
+    print('Los videos son: ')
+    if size > n:
+        i=1
+        while i <=n:
+            video = lt.getElement(videos, i)
+            print('El titulo es: ' + video['title'])
+            print('La trending date es: ' + video['trending_date'])
+            print('El canal es: ' + video['channel_title'])
+            print('La fecha de publicacion es: ' + video['publish_time'])
+            print('Las views son: ' + video['views'])
+            print('Los likes son: ' + video['likes'])
+            print('Los dislikes son: ' + video['dislikes'])
+            i+=1
+
+
 
 def TrendingVideo(catalog, category):
     """
@@ -114,6 +141,7 @@ def nVideosLikes(videos, n):
             print('Los tags son: ' + video['tags'])
             i+=1
 
+
 catalog = None
 
 """
@@ -135,7 +163,9 @@ while True:
         print("Cargando informacion de los videos con más likes por país y categoría...")
         respuesta = controller.VideoMasLikes(catalog, pais, category)
     elif int(inputs[0]) == 3:
-        x=0
+        pais = input("Introduzca un pais: ")
+        print("Cargando informacion del video más trending en", pais)
+        TrendingVideoC(catalog, pais)
 
     elif int(inputs[0]) == 4:
         category = input("Introduzca una categoria: ")
