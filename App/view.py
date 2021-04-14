@@ -132,7 +132,11 @@ while True:
         categoriesCargadas(catalog['categories'])
 
     elif int(inputs[0]) == 2:
-        x=0
+        pais = input("Introduzca un pais: ")
+        category = input("Introduzca una categoria: ")
+        print("Cargando informacion de los videos con más likes por país y categoría...")
+        respuesta = controller.VideoMasLikes(catalog, pais, category)
+        print(respuesta)
     elif int(inputs[0]) == 3:
         x=0
 

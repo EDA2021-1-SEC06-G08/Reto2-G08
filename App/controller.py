@@ -83,6 +83,11 @@ def loadCategories(catalog):
 # Funciones de consulta sobre el catálogo
 # =======================================
 
+
+#requerimiento 1
+def VideoMasLikes (catalog, country, category):
+    return model.VideoMasLikes(catalog, country, category)
+    
 # requerimiento 3
 
 def TrendingVideoCategory(catalog, category):
