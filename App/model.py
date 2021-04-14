@@ -152,6 +152,7 @@ def newCategory(name, id):
 # =====================
 
 #requerimiento 1
+
 def VideoMasViews(catalog, country, category):
     """
     Busca la categoria dentro del map y retorna la lista con los videos de esa categoria.
@@ -167,7 +168,6 @@ def VideoMasViews(catalog, country, category):
             if comparecategory_video(category, elemento, catalog) == 1:
                 lt.addLast(category_list,elemento)
         return category_list
-
 
 def organizar_videos(catalog, country, category):
     """
@@ -191,6 +191,7 @@ def relacionar_id_categorias(category, catalog):
     return nombre
 
 #requerimiento 2 
+
 def video_mas_trending_pais(catalog, country):
     """
     Busca el país dentro del map y retorna la lista con los videos de esa país.
@@ -290,12 +291,10 @@ def VideosMasLikesTags(catalog, country, tag):
 # Funciones utilizadas para comparar elementos dentro de una lista
 # ================================================================
 
-#req 1 
 def comparecategory_video(category, video, catalog):
     relacion = relacionar_id_categorias(video['category_id'], catalog)
     if category == relacion:
         return 1
-
 
 def comparecategories(name, category):
     """

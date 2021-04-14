@@ -16,5 +16,5 @@ Este directorio contiene todo el código de base que se entrega para el funciona
 -Test
 Este directorio contiene las pruebas realizadas a los TADs, Estructuras de Datos y Algoritmos.
 
-Gabriel Villabon, 202013898, g.villabon@uniandes.edu.co
-Natali Mercado, 202012682, n.mercado@uniandes.edu.co
+Gabriel Villabon, 202013898, g.villabon@uniandes.edu.co, requerimiento 3
+Natali Mercado, 202012682, n.mercado@uniandes.edu.co, requerimiento 2
