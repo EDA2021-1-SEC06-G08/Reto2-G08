@@ -70,8 +70,35 @@ def categoriesCargadas(categories):
 
 
 #requerimiento 1
+def nVideosViews(videos, n):
+    """
+    Retorna los n primeros videos con mas likes
+    """
+    size = lt.size(videos)
+    print('Los videos son: ')
+    if size > int(n):
+        i=1
+        while i <= int(n):
+            video = lt.getElement(videos, i)
+            print('La trending date es: ' + video['trending_date'])
+            print('El titulo es: ' + video['title'])
+            print('El canal es: ' + video['channel_title'])
+            print('La fecha de publicacion es: ' + video['publish_time'])
+            print('Las viewes son: ' + video['views'])
+            print('Los likes son: ' + video['likes'])
+            print('Los dislikes son: ' + video['dislikes'])
+            i+=1
 
+#requerimiento 2 
+def video_mas_trending_pais(catalog, country):
+    return controller.video_mas_trending_pais(catalog, country)
 
+def trendingCountryVideo(catalog, country):
+    video = video_mas_trending_pais(catalog, country)
+    print('El titulo es: ' + video[0]['title'])
+    print('El nombre del canal es: ' + video[0]['channel_title'])
+    print('El pais es: ' + video[0]['country'])
+    print('La cantidad de dias que fue trending es: ' + str(video[1]))
 
 # requerimiento 3
 
@@ -139,12 +166,16 @@ while True:
     elif int(inputs[0]) == 2:
         pais = input("Introduzca un pais: ")
         category = input("Introduzca una categoria: ")
+        n = int(input("Introduzca un n: "))
         print("Cargando informacion de los videos con más likes por país y categoría...")
         respuesta = controller.VideoMasViews(catalog, pais, category)
-        print(respuesta)
+        nVideosViews(respuesta, n)
+        
 
     elif int(inputs[0]) == 3:
-        x=0
+        pais = input("Introduzca un pais: ")
+        print("Cargando informacion de los videos por pais...")
+        trendingCountryVideo(catalog, pais)
     elif int(inputs[0]) == 4:
         category = input("Introduzca una categoria: ")
         print("Cargando informacion de los videos por categoria...")

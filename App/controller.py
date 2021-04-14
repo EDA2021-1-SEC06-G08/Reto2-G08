@@ -86,7 +86,7 @@ def loadCategories(catalog):
 
 #requerimiento 1
 def VideoMasViews (catalog, country, category):
-    return model.VideoMasViews(catalog, country, category)
+    return model.organizar_videos(catalog, country, category)
 
 #requerimiento 2 
 def video_mas_trending_pais(catalog, country):

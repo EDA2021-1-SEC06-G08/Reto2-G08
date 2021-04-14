@@ -31,6 +31,7 @@ from DISClib.ADT import map as mp
 from DISClib.DataStructures import listiterator as it
 from DISClib.DataStructures import mapentry as me
 from DISClib.Algorithms.Sorting import quicksort as sa
+from DISClib.Algorithms.Sorting import mergesort as merge
 assert cf
 
 """
@@ -162,9 +163,12 @@ def VideoMasViews(catalog, country, category):
             elemento = it.next(iterador)
             if comparecategory_video(category, elemento, catalog) == 1:
                 lt.addLast(category_list,elemento)
-                #tenemos que ordenar category_list por views 
-                category_list = sa.sort(category_list, cmpVideosByViews)
-    print(category_list) 
+        return category_list
+
+def organizar_videos(catalog, country, category):
+    lista = VideoMasViews(catalog, country, category)
+    lt.ordenamientoshell(lista, cmpVideosByViews)
+    return lista
 
 def relacionar_id_categorias(category, catalog):
     nombre = ""
@@ -182,7 +186,7 @@ def video_mas_trending_pais(catalog, country):
     if paisEsta:
         entry = mp.get(catalog['videosCountry'], country)
         videos_por_pais = me.getValue(entry)
-        videos_por_pais = sa.sort(videos_por_pais, cmpTitle)
+        lt.ordenamientoshell(videos_por_pais, cmpTitle)
         diasValGrande = 0
         diasValPequenio = 0
         videoGrande = None
@@ -191,17 +195,17 @@ def video_mas_trending_pais(catalog, country):
         iterador = it.newIterator(videos_por_pais)
         while it.hasNext(iterador):
             elemento = it.next(iterador)
-            title = elemento['title']
+            id = elemento['video_id']
             if videoPequenio == None:
-                videoPequenio = title
-            elif title == videoPequenio:
+                videoPequenio = id
+            elif id == videoPequenio:
                 diasValPequenio += 1
             else:
                 if diasValGrande < diasValPequenio:
                     diasValGrande = diasValPequenio
                     videoGrande = videoAnterior
                 diasValPequenio = 1
-                videoPequenio = title
+                videoPequenio = id 
             videoAnterior = elemento
         return videoGrande,diasValGrande
 
@@ -331,4 +335,3 @@ def cmpcountry(country, catalog):
     else:
         return -1
 
-        

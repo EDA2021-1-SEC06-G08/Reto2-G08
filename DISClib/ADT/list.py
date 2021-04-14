@@ -27,6 +27,7 @@
 import config
 from DISClib.Utils import error as error
 from DISClib.DataStructures import liststructure as lt
+from DISClib.Algorithms.Sorting import shellsort as sh
 assert config
 
 
@@ -376,3 +377,6 @@ def iterator(lst):
         return lt.iterator(lst)
     except Exception as exp:
         error.reraise(exp, 'List->Iterator: ')
+
+def ordenamientoshell(lst, funcion_comparacion):
+    return sh.sort(lst, funcion_comparacion)
