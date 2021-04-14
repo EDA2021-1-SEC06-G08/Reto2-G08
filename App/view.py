@@ -39,8 +39,8 @@ def printMenu():
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
     print("2- Consultar n videos con mas views para un pais y una categoria especifica")
-    print("3- Consultar el video mas tendring para un pais")
-    print("4- Consultar el video mas tendring para una categoria")
+    print("3- Consultar el video mas trending para un pais")
+    print("4- Consultar el video mas trending para una categoria")
     print("5- Consultar n videos con mas likes para un pais y un tag")
     print("0- Salir del menu")
 
@@ -145,6 +145,7 @@ def nVideosLikes(videos, n):
         i=1
         while i <=n:
             video = lt.getElement(videos, i)
+            print('------------------------------------------------------------------------------------------')
             print('El titulo es: ' + video['title'])
             print('El canal es: ' + video['channel_title'])
             print('La fecha de publicacion es: ' + video['publish_time'])
@@ -175,14 +176,14 @@ while True:
         pais = input("Introduzca un pais: ")
         category = input("Introduzca una categoria: ")
         n = int(input("Introduzca un n: "))
-        print("Cargando informacion de los videos con más likes por país y categoría...")
+        print("Cargando informacion de los", n, "videos con más likes en", pais, "en la categoria", category)
         respuesta = controller.VideoMasViews(catalog, pais, category)
         nVideosViews(respuesta, n)
         
 
     elif int(inputs[0]) == 3:
         pais = input("Introduzca un pais: ")
-        print("Cargando informacion de los videos por pais...")
+        print("Cargando informacion del video más trending en", pais)
         trendingCountryVideo(catalog, pais)
     elif int(inputs[0]) == 4:
         category = input("Introduzca una categoria: ")
