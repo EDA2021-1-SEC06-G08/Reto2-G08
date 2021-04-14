@@ -194,19 +194,6 @@ def VideoMasLikes(catalog, country, category):
                 category_list = sa.sort(category_list, cmpVideosByViews)
     return category_list
 
-    
-
-
-def relacionar_id_categorias(category, catalog):
-    nombre = ""
-    iterador = it.newIterator(catalog['categories'])
-    while it.hasNext(iterador):
-        elemento = it.next(iterador)
-        if category == elemento['id']:
-            nombre = elemento['name']
-            break
-    return nombre
-
 #requerimiento 2 
 def video_por_pais(catalog, country):
     paisEsta = mp.contains(catalog['videosCountry'], country)
@@ -237,11 +224,6 @@ def video_por_pais(catalog, country):
         return videoGrande,diasValGrande
 
 
-def video_mas_trending_pais(catalog, country):
-    lista = video_por_pais(catalog, country)
-    #dicc, dias = creardiccionarioId(lista)
-    #datos_video = buscar_id(lista, dicc)
-    return lista #datos_video['title'], datos_video['channel_title'], datos_video['country'], dias
 
 #Requerimiento 3
 
