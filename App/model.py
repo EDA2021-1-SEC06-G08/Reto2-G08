@@ -61,11 +61,11 @@ def newCatalog():
                                        cmpfunction=comparecategories)
     catalog['videosCategory'] = mp.newMap(100,
                                             maptype='PROBING',
-                                            loadfactor= 0.5,
+                                            loadfactor= 0.4,
                                             comparefunction=cmpcategory)
     catalog['videosCountry'] = mp.newMap(600,
                                             maptype='PROBING',
-                                            loadfactor= 0.5,
+                                            loadfactor= 0.4,
                                             comparefunction=cmpcountry)
     return catalog
 
@@ -168,6 +168,7 @@ def VideoMasLikes(catalog, country, category):
 
 
 #requerimiento 2 
+
 def video_por_pais(catalog, country):
     paisEsta = mp.contains(catalog['videosCountry'], country)
     if paisEsta:
@@ -196,6 +197,15 @@ def video_por_pais(catalog, country):
             videoAnterior = elemento
         return videoGrande,diasValGrande
 
+def relacionar_id_categorias(category, catalog):
+    nombre = ""
+    iterador = it.newIterator(catalog['categories'])
+    while it.hasNext(iterador):
+        elemento = it.next(iterador)
+        if category == elemento['id']:
+            nombre = elemento['name']
+            break
+    return nombre
 
 #Requerimiento 3
 
