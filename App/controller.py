@@ -63,7 +63,7 @@ def loadVideos(catalog):
     cada una de ellas, se crea en la lista de categorias, a dicha categoria 
     una referencia al video que se esta procesando.
     """
-    videosfile = cf.data_dir + 'videos-small.csv'
+    videosfile = cf.data_dir + 'videos-large.csv'
     input_file = csv.DictReader(open(videosfile))
     for video in input_file:
         model.addVideo(catalog, video)
@@ -82,11 +82,6 @@ def loadCategories(catalog):
 # =======================================
 # Funciones de consulta sobre el catálogo
 # =======================================
-
-
-#requerimiento 1
-def VideoMasLikes (catalog, country, category):
-    return model.VideoMasLikes(catalog, country, category)
     
 # requerimiento 3
 
