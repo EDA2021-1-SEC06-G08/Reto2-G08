@@ -150,55 +150,6 @@ def newCategory(name, id):
 # Funciones de consulta
 # =====================
 
-#requerimiento 1
-
-def VideoMasLikes(catalog, country, category):
-    idEsta = mp.contains(catalog['videosCountry'], country)
-    if idEsta:
-        entry = mp.get(catalog['videosCountry'], country)
-        videos = me.getValue(entry)
-        category_list = lt.newList('ARRAY_LIST')
-        iterador = it.newIterator(videos)
-        while it.hasNext(iterador):
-            elemento = it.next(iterador)
-            if comparecategory_video(category, elemento, catalog) == 1:
-                lt.addLast(category_list,elemento)
-                #tenemos que ordenar category_list por likes 
-                category_list1 = sa.sort(category_list, cmpVideosByViews)
-    return category_list1
-
-
-#requerimiento 2 
-
-def video_por_pais(catalog, country):
-    paisEsta = mp.contains(catalog['videosCountry'], country)
-    if paisEsta:
-        entry = mp.get(catalog['videosCountry'], country)
-        videos_por_pais = me.getValue(entry)
-        videos_por_pais = sa.sort(videos_por_pais, cmpTitle)
-        diasValGrande = 0
-        diasValPequenio = 0
-        videoGrande = None
-        videoPequenio = None
-        videoAnterior = None
-        iterador = it.newIterator(videos_por_pais)
-        while it.hasNext(iterador):
-            elemento = it.next(iterador)
-            title = elemento['title']
-            if videoPequenio == None:
-                videoPequenio = title
-            elif title == videoPequenio:
-                diasValPequenio += 1
-            else:
-                if diasValGrande < diasValPequenio:
-                    diasValGrande = diasValPequenio
-                    videoGrande = videoAnterior
-                diasValPequenio = 1
-                videoPequenio = title
-            videoAnterior = elemento
-        return videoGrande,diasValGrande
-
-
 #Requerimiento 3
 
 def TrendingVideoCategory(catalog, category):
@@ -263,11 +214,6 @@ def VideosMasLikesTags(catalog, country, tag):
 # ================================================================
 # Funciones utilizadas para comparar elementos dentro de una lista
 # ================================================================
-
-def comparecategory_video(category, video, catalog):
-    relacion = relacionar_id_categorias(video['category_id'], catalog)
-    if category == relacion:
-        return 1
 
 def comparecategories(name, category):
     """
