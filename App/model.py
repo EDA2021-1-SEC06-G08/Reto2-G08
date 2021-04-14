@@ -5,6 +5,7 @@
  *
  * Desarrolado para el curso ISIS1225 - Estructuras de Datos y Algoritmos
  *
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -60,11 +61,11 @@ def newCatalog():
                                        cmpfunction=comparecategories)
     catalog['videosCategory'] = mp.newMap(100,
                                             maptype='PROBING',
-                                            loadfactor= 0.4,
+                                            loadfactor=0.4,
                                             comparefunction=cmpcategory)
     catalog['videosCountry'] = mp.newMap(600,
                                             maptype='PROBING',
-                                            loadfactor= 0.4,
+                                            loadfactor=0.4,
                                             comparefunction=cmpcountry)
     return catalog
 
