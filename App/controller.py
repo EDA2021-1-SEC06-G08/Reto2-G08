@@ -112,10 +112,6 @@ def loadCategories(catalog):
 #requerimiento 1
 def VideoMasLikes (catalog, country, category):
     return model.VideoMasLikes(catalog, country, category)
-
-#requerimiento 2 
-def video_mas_trending_pais(catalog, country):
-    return model.video_mas_trending_pais(catalog, country)
 # requerimiento 3
 
 def TrendingVideoCategory(catalog, category):
