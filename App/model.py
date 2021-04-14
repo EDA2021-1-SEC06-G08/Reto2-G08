@@ -198,15 +198,6 @@ def video_por_pais(catalog, country):
             videoAnterior = elemento
         return videoGrande,diasValGrande
 
-def relacionar_id_categorias(category, catalog):
-    nombre = ""
-    iterador = it.newIterator(catalog['categories'])
-    while it.hasNext(iterador):
-        elemento = it.next(iterador)
-        if category == elemento['id']:
-            nombre = elemento['name']
-            break
-    return nombre
 
 #Requerimiento 3
 
