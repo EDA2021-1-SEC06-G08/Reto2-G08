@@ -151,6 +151,7 @@ def newCategory(name, id):
 # Funciones de consulta
 # =====================
 
+
 #requerimiento 1
 
 def VideoMasViews(catalog, country, category):
@@ -223,8 +224,6 @@ def video_mas_trending_pais(catalog, country):
                 videoPequenio = id 
             videoAnterior = elemento
         return videoGrande,diasValGrande
-
-
 
 #Requerimiento 3
 
