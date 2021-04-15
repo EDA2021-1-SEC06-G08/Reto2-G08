@@ -85,18 +85,20 @@ def loadCategories(catalog):
     
 
 #requerimiento 1
+
+def VideoMasViews (catalog, country, category):
     """
     Contiene la informacion de los videos con más views por el país que es pasado por parámetro.
     """
-def VideoMasViews (catalog, country, category):
     return model.organizar_videos(catalog, country, category)
 
 #requerimiento 2 
+
+def video_mas_trending_pais(catalog, country):
     """
     Contiene la informacion del video mas trending por el país que es pasado como parámetro
     y la cantidad de dias que fue trending.
     """
-def video_mas_trending_pais(catalog, country):
     return model.video_mas_trending_pais(catalog, country)
 
 # requerimiento 3
