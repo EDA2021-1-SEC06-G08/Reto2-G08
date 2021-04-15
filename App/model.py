@@ -188,7 +188,9 @@ def relacionar_id_categorias(category, catalog):
         if category == elemento['id']:
             nombre = elemento['name']
             break
-    return nombre
+    return nombre.lower()
+
+
 
 #requerimiento 2 
 def video_mas_trending_pais(catalog, country):
@@ -232,6 +234,7 @@ def TrendingVideoCategory(catalog, category):
     Busca la categoria dentro del map y retorna la lista con los videos de esa categoria.
     Despues compara los titulos de los videos y busca cual es que mas se repite.
     """
+    
     idEsta = mp.contains(catalog['videosCategory'], category)
     if idEsta:
         entry = mp.get(catalog['videosCategory'], category)

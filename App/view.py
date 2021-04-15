@@ -177,24 +177,24 @@ while True:
         category = input("Introduzca una categoria: ")
         n = int(input("Introduzca un n: "))
         print("Cargando informacion de los", n, "videos con más likes en", pais, "en la categoria", category)
-        respuesta = controller.VideoMasViews(catalog, pais, category)
+        respuesta = controller.VideoMasViews(catalog, pais.lower(), category.lower())
         nVideosViews(respuesta, n)
         
 
     elif int(inputs[0]) == 3:
         pais = input("Introduzca un pais: ")
         print("Cargando informacion del video más trending en", pais)
-        trendingCountryVideo(catalog, pais)
+        trendingCountryVideo(catalog, pais.lower())
     elif int(inputs[0]) == 4:
         category = input("Introduzca una categoria: ")
         print("Cargando informacion de los videos por categoria...")
-        TrendingVideo(catalog, category)
+        TrendingVideo(catalog, category.lower())
     elif int(inputs[0]) == 5:
         country = input("Introduzca un pais: ")
         tag = input("Introduzca un tag: ")
         n = int(input("Introduzca la cantidad de videos con mas likes: "))
         print("Cargando informacion de los videos por tag y pais")
-        videos = VideosMasLikesTags(catalog, country, tag)
+        videos = VideosMasLikesTags(catalog, country.lower(), tag.lower())
         nVideosLikes(videos, n)
     else:
         sys.exit(0)
